@@ -39,4 +39,4 @@ def inscription():
     return render_template('inscription.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host=192.168.33.250, debug=True)
