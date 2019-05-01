@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+<h1>{% block title %} Inscription {% endblock %}</h1>
+
+{% block content %}
+  <form class="" action="{{ url_for('inscription') }}" method="post">
+    <label for="">Identifiant</label>
+    <input type="text" name="identifiant" placeholder="identifiant"><br>
+    {% with messages = get_flashed_messages(category_filter=["error_user"]) %}
+      {% if messages %}
+        {% for message in messages %}
+          {{ message }}<br>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <label for="">Mot de passe</label>
+    <input type="password" name="password" placeholder="password"><br>
+    {% with messages = get_flashed_messages(category_filter=["error_password"]) %}
+      {% if messages %}
+        {% for message in messages %}
+          {{ message }}<br>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <label for="">Confirmation du mot de passe</label>
+    <input type="password" name="password_confirm" placeholder="password"><br>
+    {% with messages = get_flashed_messages(category_filter=["inscription"]) %}
+      {% if messages %}
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <button type="submit" name="submit">Connexion</button>
+  </form>
+{% endblock %}

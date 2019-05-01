@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, flash
+from flask import Flask, request, render_template, flash, g, url_for
 from flask_pymongo import PyMongo
 
 app = Flask(__name__)
@@ -9,16 +9,21 @@ app.config['MONGO_URI'] = 'mongodb://localhost:27017/CA'
 
 mongo = PyMongo(app)
 
-@app.route('/')
+@app.route('/', methods=["GET"])
 def index():
-    return render_template('base.html')
+    if getattr(g, 'user', None) is None:
+        return render_template("auth/login.html")
+    return render_template('auth/index.html')
 
 @app.route("/connexion/", methods=["GET", "POST"])
 def connexion():
-    if request.method == "GET":
-        return render_template('auth/login.html')
-    else:
-        return render_template('auth/login.html')
+    if request.method == "POST":
+        user = mongo.db.user
+
+        if user.count( {"login": request.form["identifiant"], "password": request.form["password"] } ) != 0:
+            g.user = request.form["identifiant"]
+            return render_template("auth/index.html")
+    return render_template('auth/login.html')
 
 @app.route('/inscription/', methods=["GET", "POST"])
 def inscription():
@@ -36,7 +41,17 @@ def inscription():
             "login": login, "password": password
             })
             flash(u"Vous êtes inscrit", "inscription")
-    return render_template('inscription.html')
+    return render_template('auth/register.html')
+
+@app.route("/", methods=["POST"])
+def upload():
+    fichier = request.files["certificat"]
+    if fichier:
+        mon_fichier = fichier.filename
+        # if mon_fichier.rsplit('.', 1)[1] == 'csr':
+        #     file = mongo.db.file
+        #     file.insert({"file": request.files['certificat']})
+    return render_template("auth/index.html")
 
 if __name__ == '__main__':
-    app.run(host="192.168.33.250",port="8080", debug=True)
+    app.run(port="8080", debug=True)

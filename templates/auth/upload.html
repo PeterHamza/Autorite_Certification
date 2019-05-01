@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+<h1>{% block title %} Upload {% endblock %}</h1>
+
+{% block content %}
+  <form class="" action="{{ url_for('inscription') }}" method="post">
+    <label for="">Upload</label>
+    <button type="submit" name="submit">Connexion</button>
+  </form>
+{% endblock %}

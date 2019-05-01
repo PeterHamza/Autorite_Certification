@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+<h1>{% block title %} Accueil {% endblock %}</h1>
+
+{% block content %}
+  <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+    <input id="certificat" type="file" name="certificat">
+    <button type="submit" name="button">Upload</button>
+  </form>
+  <table>
+    <tr>
+      <td>Certification</td>
+      <td>Suppression</td>
+    </tr>
+  </table>
+{% endblock %}
