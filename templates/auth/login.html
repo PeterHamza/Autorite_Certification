@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+<h1>{% block title %} Connexion {% endblock %}</h1>
+
+{% block content %}
+  <form class="" action="index.html" method="post">
+    <label for="">Identifiant</label>
+    <input type="text" name="identifiant" placeholder="identifiant"><br>
+
+    <label for="">Mot de passe</label>
+    <input type="password" name="password" placeholder="password"><br>
+
+    <button type="submit" name="submit">Connexion</button>
+  </form>
+{% endblock %}
