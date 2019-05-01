@@ -26,16 +26,16 @@ def inscription():
         user = mongo.db.user
 
         if request.form["password"] != request.form["password_confirmation"]:
-            flash(u"Les mots de passes ne sont pas identiques")
+            flash(u"Les mots de passes ne sont pas identiques", "error_password")
         elif user.count( {"login" : request.form["identifiant"]} ) != 0:
-            flash(u"L'utilisateur existe déjà")
+            flash(u"L'utilisateur existe déjà", "error_user")
         else:
             login = request.form["identifiant"]
             password = request.form["password"]
             user.insert({
             "login": login, "password": password
             })
-            flash(u"Vous êtes inscrit")
+            flash(u"Vous êtes inscrit", "inscription")
     return render_template('inscription.html')
 
 if __name__ == '__main__':
